@@ -8,10 +8,10 @@ import cors from "cors";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-import Car from "./models/Car.js";
-import User from "./models/User.js";
-import Category from "./models/Category.js";
-import ServiceCenter from "./models/ServiceCenter.js";
+import Car from "../models/Car.js";
+import User from "../models/User.js";
+import Category from "../models/Category.js";
+import ServiceCenter from "../models/ServiceCenter.js";
 
 
 const app = express();
