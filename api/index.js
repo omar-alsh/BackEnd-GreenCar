@@ -13,7 +13,6 @@ import User from "../models/User.js";
 import Category from "../models/Category.js";
 import ServiceCenter from "../models/ServiceCenter.js";
 
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -95,6 +94,21 @@ app.get("/api/users", async (req, res) => {
     res
       .status(500)
       .json({ message: "Error fetching users", error: error.message });
+  }
+});
+
+// جلب بيانات مستخدم واحد بناءً على الـ ID
+app.get("/api/users/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "المستخدم غير موجود" });
+    }
+    res.json(user);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "خطأ في جلب بيانات المستخدم", error: error.message });
   }
 });
 
@@ -327,21 +341,17 @@ app.post("/api/add/service-centers", async (req, res) => {
       image,
       type
     });
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "تم إضافة المركز / المتجر بنجاح",
-        data: newCenter
-      });
+    res.status(201).json({
+      success: true,
+      message: "تم إضافة المركز / المتجر بنجاح",
+      data: newCenter
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "حدث خطأ أثناء الإضافة",
-        error: error.message
-      });
+    res.status(500).json({
+      success: false,
+      message: "حدث خطأ أثناء الإضافة",
+      error: error.message
+    });
   }
 });
 
@@ -353,21 +363,17 @@ app.delete("/api/delete/service-centers/:id", async (req, res) => {
       return res
         .status(404)
         .json({ success: false, message: "المركز أو المتجر غير موجود" });
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "تم حذف البيانات بنجاح",
-        data: deletedCenter
-      });
+    res.status(200).json({
+      success: true,
+      message: "تم حذف البيانات بنجاح",
+      data: deletedCenter
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "حدث خطأ أثناء الحذف",
-        error: error.message
-      });
+    res.status(500).json({
+      success: false,
+      message: "حدث خطأ أثناء الحذف",
+      error: error.message
+    });
   }
 });
 
